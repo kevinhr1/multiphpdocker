@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  php74:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile74
+    ports:
+      - 8874:80
+    volumes:
+      - ./html/php74:/var/www/html/
+
+  php56:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile56
+    ports:
+      - 8856:80
+    volumes:
+      - ./html/php56:/var/www/html/
+    
+  php81:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile81
+    ports:
+      - 8881:80
+    volumes:
+      - ./html/php81:/var/www/html/
+    
+  php53:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile53
+    ports:
+      - 8853:80
+    volumes:
+      - ./html/php53:/var/www/html/
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    build:
+        context: ./mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_TCP_PORT: 3306
+    ports:
+      - 3307:3306
+    expose:
+      - 3307
